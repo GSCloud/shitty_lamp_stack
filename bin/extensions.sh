@@ -6,15 +6,36 @@
 command -v docker >/dev/null 2>&1 || fail "Docker is NOT installed!"
 
 if [ ! -r ".env" ]; then fail "Missing .env file!"; fi
-export $(grep -v '^#' .env | grep -v "PROJECT_NAME" | xargs -d '\n')
+source .env
 
 if [ -z "$APP_NAME" ]; then fail "Missing APP_NAME definition!"; fi
+if [ -z ${PHP_EXTENSIONS+x} ]; then fail "Missing PHP_EXTENSIONS definition!"; fi
+if [ -z ${APT_EXTRAS+x} ]; then fail "Missing APT_EXTRAS definition!"; fi
 
-[ ! "$(docker ps -a | grep $APP_NAME)" ] || fail "$APP_NAME is not running!"
+if [ -z "$(docker ps -a | grep ${APP_NAME})" ]; then fail "$APP_NAME is not running!"; fi
 
+echo "Updating APT ..."
 docker exec $APP_NAME apt-get update -yqq
-docker exec $APP_NAME apt-get install -yq libmcrypt-dev libreadline-dev
-docker exec $APP_NAME docker-php-ext-install mbstring mysqli iconv mcrypt
+docker exec $APP_NAME apt-get install -yq ${APT_EXTRAS}
+docker exec $APP_NAME docker-php-ext-install ${PHP_EXTENSIONS}
 docker restart $APP_NAME
+
+echo -en "\n\n"
+
+info "APP settings:"
+docker exec $APP_NAME php -i | grep 'memory_limit'
+docker exec $APP_NAME php -i | grep 'upload_max_filesize'
+echo -en "\n"
+
+info "PHP extesions:"
+docker exec $APP_NAME php -m | grep mbstring
+docker exec $APP_NAME php -m | grep mcrypt
+docker exec $APP_NAME php -m | grep mysqli
+echo -en "\n"
+
+info "PMA settings:"
+docker exec $PMA_NAME php -i | grep 'memory_limit'
+docker exec $PMA_NAME php -i | grep 'upload_max_filesize'
+echo -en "\n"
 
 exit 0

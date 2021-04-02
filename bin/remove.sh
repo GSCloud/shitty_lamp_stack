@@ -6,7 +6,7 @@
 command -v docker >/dev/null 2>&1 || fail "Docker is NOT installed!"
 
 if [ ! -r ".env" ]; then fail "Missing .env file!"; fi
-export $(grep -v '^#' .env | grep -v "PROJECT_NAME" | xargs -d '\n')
+source .env
 
 if [ -z "$APP_NAME" ]; then fail "Missing APP_NAME definition!"; fi
 if [ -z "$DB_NAME" ]; then fail "Missing DB_NAME definition!"; fi
