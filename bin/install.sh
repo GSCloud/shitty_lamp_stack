@@ -14,13 +14,9 @@ if [ -z "$PMA_NAME" ]; then fail "Missing PMA_NAME definition!"; fi
 
 mkdir -p db
 
-info Stopping $APP_NAME
+info "Stopping..."
 docker stop $APP_NAME 2>/dev/null
-
-info Stopping $DB_NAME
 docker stop $DB_NAME 2>/dev/null
-
-info Stopping $PMA_NAME
 docker stop $PMA_NAME 2>/dev/null
 echo -en "\n"
 
@@ -37,6 +33,7 @@ echo -en "\n"
 
 info "PHP extesions:"
 docker exec $APP_NAME php -m | grep mbstring
+docker exec $APP_NAME php -m | grep mcrypt
 docker exec $APP_NAME php -m | grep mysqli
 echo -en "\n"
 
