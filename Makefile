@@ -34,9 +34,10 @@ config:
 	docker-compose config
 
 clean: remove
-	docker rm ${APP_NAME}
-	docker rm ${DB_NAME}
-	docker rm ${PMA_NAME}
+	@echo "🔨 \e[1;32m Removing app and database storage\e[0m"
+	@docker rm ${APP_NAME}
+	@docker rm ${DB_NAME}
+	@docker rm ${PMA_NAME}
 	sudo rm -rf db/
 
 everything: remove install
