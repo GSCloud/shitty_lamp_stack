@@ -12,13 +12,9 @@ if [ -z "$APP_NAME" ]; then fail "Missing APP_NAME definition!"; fi
 if [ -z "$DB_NAME" ]; then fail "Missing DB_NAME definition!"; fi
 if [ -z "$PMA_NAME" ]; then fail "Missing PMA_NAME definition!"; fi
 
-info Killing $APP_NAME
+info "Killing containers"
 docker kill $APP_NAME 2>/dev/null
-
-info Killing $PMA_NAME
 docker kill $PMA_NAME 2>/dev/null
-
-info Killing $DB_NAME
 docker kill $DB_NAME 2>/dev/null
 
 exit 0
