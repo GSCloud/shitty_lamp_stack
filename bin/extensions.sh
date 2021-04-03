@@ -27,7 +27,7 @@ docker exec $APP_NAME php -i | grep 'memory_limit'
 docker exec $APP_NAME php -i | grep 'upload_max_filesize'
 echo -en "\n"
 
-info "PHP extesions:"
+info "PHP extensions:"
 docker exec $APP_NAME php -m | grep mbstring
 docker exec $APP_NAME php -m | grep mcrypt
 docker exec $APP_NAME php -m | grep mysqli
