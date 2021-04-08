@@ -9,8 +9,10 @@ if [ ! -r ".env" ]; then fail "Missing .env file!"; fi
 source .env
 
 if [ -z ${APP_NAME+x} ]; then fail "Missing APP_NAME definition!"; fi
+if [ -z ${APP_PORT+x} ]; then fail "Missing APP_PORT definition!"; fi
 if [ -z ${DB_NAME+x} ]; then fail "Missing DB_NAME definition!"; fi
 if [ -z ${PMA_NAME+x} ]; then fail "Missing PMA_NAME definition!"; fi
+if [ -z ${PMA_PORT+x} ]; then fail "Missing PMA_PORT definition!"; fi
 
 info "Docker containers"
 docker-compose ps
