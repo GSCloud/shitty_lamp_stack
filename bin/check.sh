@@ -35,4 +35,10 @@ docker exec $PMA_NAME php -i | grep 'memory_limit'
 docker exec $PMA_NAME php -i | grep 'upload_max_filesize'
 echo -en "\n"
 
+info "APP"
+echo -en "\nhttp://localhost:${APP_PORT}\n\n"
+
+info "PMA"
+echo -en "\nhttp://localhost:${PMA_PORT}\n\n"
+
 exit 0
